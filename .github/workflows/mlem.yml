@@ -42,9 +42,11 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_CLOUDRUN_KEY }}
 
+      - name: Deploy
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: mlem-example
+          image: gcr.io/sandbox-342203/mlem-example:latest
 
-#      - name: Deploy
-#        uses: google-github-actions/deploy-cloudrun@v0
-#        with:
-#          service: mlem-example
-#          image: gcr.io/sandbox-342203/mlem-example:latest
+      - name: See deployment
+        run: echo "${{ steps.deploy.outputs.url }}"
