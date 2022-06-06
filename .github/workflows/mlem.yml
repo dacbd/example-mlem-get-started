@@ -43,6 +43,7 @@ jobs:
           credentials_json: ${{ secrets.GCP_CLOUDRUN_KEY }}
 
       - name: Deploy
+        id: deploy
         uses: google-github-actions/deploy-cloudrun@v0
         with:
           service: mlem-example
