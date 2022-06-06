@@ -47,6 +47,7 @@ jobs:
         with:
           service: mlem-example
           image: gcr.io/sandbox-342203/mlem-example:latest
+          region: us-west1
 
       - name: See deployment
         run: echo "${{ steps.deploy.outputs.url }}"
