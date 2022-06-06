@@ -22,6 +22,29 @@ jobs:
       - name: mlem docker build
         run: |
           source venv/bin/activate
-          mlem build rf docker -c server.type=fastapi -c image.name=sklearn-model
+          mlem build rf docker -c server.type=fastapi -c image.name=mlem-example
           docker images 
           
+      - name: Docker login
+        uses: docker/login-action@v1
+        with:
+          registry: gcr.io
+          username: _json_key
+          password: ${{ secrets.GCP_GCR_KEY }}
+
+      - name: Push to GCP
+        run: |
+          docker tag mlem-example:latest gcr.io/sandbox-342203/mlem-example:latest
+          docker push gcr.io/sandbox-342203/mlem-example:latest
+
+      - name: Auth to GCP for Deploy
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GCP_CLOUDRUN_KEY }}
+
+
+#      - name: Deploy
+#        uses: google-github-actions/deploy-cloudrun@v0
+#        with:
+#          service: mlem-example
+#          image: gcr.io/sandbox-342203/mlem-example:latest
