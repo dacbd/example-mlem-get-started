@@ -1,0 +1,27 @@
+name: mlem example
+on:
+  workflow_dispatch:
+
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: build example
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements
+
+      - name: train model
+        run: |
+          source venv/bin/activate
+          python train
+
+      - name: mlem docker build
+        run: |
+          source venv/bin/activate
+          mlem build rf docker -c server.type=fastapi -c image.name=sklearn-model
+          docker images 
+          
