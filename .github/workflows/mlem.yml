@@ -17,7 +17,7 @@ jobs:
       - name: train model
         run: |
           source venv/bin/activate
-          python train
+          python train.py
 
       - name: mlem docker build
         run: |
